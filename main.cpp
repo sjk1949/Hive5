@@ -1,7 +1,11 @@
 #include <iostream>
+#include <array>
+
+#include "Board.h"
 
 int main() {
-    std::cout << "Hello, gougou." << std::endl;
+    Board board;
+    board.display_board();
 
     return 0;
 }
