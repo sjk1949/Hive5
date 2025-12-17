@@ -15,19 +15,19 @@ void Board::display_board(){
     for (auto row : board) {
         for (auto order : row) {
             if (order==0){
-                std::cout << "+" << " ";
+                std::cout << " + ";
             } else if (order==1){
-                std::cout << "●" << " ";
+                std::cout << " ● ";
             } else if (order==-1){
-                std::cout << "○" << " ";
+                std::cout << " ○ ";
             } else {
-                std::cout << "😼" << " ";
+                std::cout << "😼 ";
             }
         }
         std::cout << " " << i << std::endl;
         i++;
     }
-    std::cout << "A B C D E F G H I G K L M N O" << std::endl;
+    std::cout << " A  B  C  D  E  F  G  H  I  G  K  L  M  N  O " << std::endl << std::endl;
 }
 
 void Board::add_piece(int x, int y, int player){

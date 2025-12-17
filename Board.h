@@ -1,7 +1,8 @@
+#pragma once
+
 #include <array>
 
-class Board
-{
+class Board{
 public:
     static const int SIZE = 15; // board size
 
