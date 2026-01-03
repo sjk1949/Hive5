@@ -30,6 +30,11 @@ public:
      */
     int get_piece(int x, int y) const;
 
+    /**
+     * @brief Check if the position is on board.
+     */
+    bool is_on_board(int x, int y) const;
+
 private:
     std::array<std::array<int, SIZE>, SIZE> board; // 1: black, -1: white, 0: blank
 

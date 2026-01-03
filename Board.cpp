@@ -40,3 +40,13 @@ void Board::add_piece(int x, int y, int player){
 int Board::get_piece(int x, int y) const{
     return board[x][y];
 }
+
+bool Board::is_on_board(int x, int y) const{
+    if ( x >= 0 && x <= 14 && y >=0 && y <= 14 )
+    {
+        return true;
+    }else
+    {
+        return false;
+    }
+}
