@@ -29,7 +29,7 @@ std::string Board::to_string() const{
         sboard << " " << i << "\n";
         i++;
     }
-    sboard << " A  B  C  D  E  F  G  H  I  G  K  L  M  N  O \n";
+    sboard << " A  B  C  D  E  F  G  H  I  J  K  L  M  N  O \n";
     return sboard.str();
 }
 

@@ -3,14 +3,15 @@
 #include "Input.h"
 #include "UI.h"
 #include "AI.h"
+#include "Shape.h"
 
 #include <iostream>
 #include <array>
 
 Game::Game() {
     player = 1;
-    isAI1 = true;
-    isAI2 = true;
+    isAI1 = false;
+    isAI2 = false;
 }
 
 const Board& Game::get_board() const{
@@ -57,6 +58,18 @@ void Game::update(){
         // 切换玩家
         switch_player();
     }
+
+    // 测试Shape.cpp
+    std::cout << "shape from H8, for player1: " << std::endl;
+    Shape shape0 = Shape::getShape(board, {7,7}, 1, 0);
+    Shape shape1 = Shape::getShape(board, {7,7}, 1, 1);
+    Shape shape2 = Shape::getShape(board, {7,7}, 1, 2);
+    Shape shape3 = Shape::getShape(board, {7,7}, 1, 3);
+    std::cout << "direction 0 (0: ——, 1: |, 2: /, 3: \ ): length: " << shape0.length << ", breaking: " << shape0.breaking << ", vacancy1 and vacancy2: " << shape0.vacancy1 << shape0.vacancy2 << std::endl;
+    std::cout << "direction 1 (0: ——, 1: |, 2: /, 3: \ ): length: " << shape1.length << ", breaking: " << shape1.breaking << ", vacancy1 and vacancy2: " << shape1.vacancy1 << shape1.vacancy2 << std::endl;
+    std::cout << "direction 2 (0: ——, 1: |, 2: /, 3: \ ): length: " << shape2.length << ", breaking: " << shape2.breaking << ", vacancy1 and vacancy2: " << shape2.vacancy1 << shape2.vacancy2 << std::endl;
+    std::cout << "direction 3 (0: ——, 1: |, 2: /, 3: \ ): length: " << shape3.length << ", breaking: " << shape3.breaking << ", vacancy1 and vacancy2: " << shape3.vacancy1 << shape3.vacancy2 << std::endl;
+    
 }
 
 std::array<int, 2> Game::get_position(Board board, int player){
@@ -108,6 +121,4 @@ bool Game::current_player_isAI(){
     {
         return isAI2;
     }
-    
-    
 }

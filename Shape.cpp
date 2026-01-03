@@ -9,11 +9,11 @@ Shape::Shape(){
 }
 
 Shape Shape::getShape(const Board& board, std::array<int, 2> position, int direction) {
-    getShape(board, position, board.get_piece(position[0], position[1]), direction); // 以该position处棋子为player
+    return getShape(board, position, board.get_piece(position[0], position[1]), direction); // 以该position处棋子为player
 }
 
 Shape Shape::getShape(const Board& board, std::array<int, 2> position, int player, int direction){
-    mergeShape(getShape(board, position, player, direction, 1), getShape(board, position, player, direction, -1));
+    return mergeShape(getShape(board, position, player, direction, 1), getShape(board, position, player, direction, -1));
 }
 
 Shape Shape::getShape(const Board& board, std::array<int, 2> position, int player, int direction, int side) {
@@ -29,7 +29,7 @@ Shape Shape::getShape(const Board& board, std::array<int, 2> position, int playe
 
     // 如果当前位置的棋子类型与之前的棋子类型都相同
     //int side = 1;
-    for ( ; ; shape.length ++)
+    for (int i = 0; i < 15; i++)
     {
         current_position = next_position(current_position, direction, side);
         if_next_position = next_position(current_position, direction, side);
@@ -39,7 +39,7 @@ Shape Shape::getShape(const Board& board, std::array<int, 2> position, int playe
             {
                 if (board.get_piece(current_position[0],current_position[1]) == player) //仍为连子        
                 {
-                    continue; //shape.length += 1;
+                    shape.length += 1; //continue;
                 }else if (board.get_piece(current_position[0],current_position[1]) == (player * (-1))) //在该处被对方棋子截断
                 {
                     shape.vacancy_status(side, false);//shape.vacancy1 = false;
@@ -52,25 +52,25 @@ Shape Shape::getShape(const Board& board, std::array<int, 2> position, int playe
                         if (board.get_piece(if_next_position[0],if_next_position[1]) == player) // 空格后仍为连子，正常处理 
                         {
                             shape.breaking = 1; // 这里breaking会从0变为1，但假装无事发生，breaking=2是两边加起来后可能出现的情况
-                            continue;
+                            shape.length += 1; //continue;
                         }else if (board.get_piece(if_next_position[0],if_next_position[1]) == (player * (-1))) // 空格后被对方棋子截断，即为没有breaking，连子在上一步已结束
                         {
                             shape.breaking = 0; // 不需要这句，图个安心
                             shape.vacancy_status(side, true);// 没啥用，图个安心
-                            shape.length -= 1;
+                            //shape.length -= 1;
                             return shape;
                         }else if (board.get_piece(if_next_position[0],if_next_position[1]) == 0) //空格后仍为空格
                         {
                             shape.breaking = 0; // 不需要这句，图个安心
                             shape.vacancy_status(side, true);// 没啥用，图个安心
-                            shape.length -= 1;
+                            //shape.length -= 1;
                             return shape;
                         }
                     }else // 一个空格后直接到边界
                     {
                         shape.breaking = 0;
                         shape.vacancy_status(side, true);
-                        shape.length -= 1;
+                        //shape.length -= 1;
                         return shape;
                     }
                     //shape.breaking += 1; // 这里breaking会从0变为1，但假装无事发生，breaking=2是两边加起来后可能出现的情况
@@ -87,7 +87,7 @@ Shape Shape::getShape(const Board& board, std::array<int, 2> position, int playe
             {
                 if (board.get_piece(current_position[0],current_position[1]) == player) //仍为连子        
                 {
-                    continue; //shape.length += 1;
+                    shape.length += 1; //continue;
                 }else if (board.get_piece(current_position[0],current_position[1]) == (player * (-1))) //在该处被对方棋子截断
                 {
                     shape.vacancy_status(side, false);//shape.vacancy1 = false;
@@ -120,7 +120,7 @@ Shape Shape::mergeShape(const Shape& shape1, const Shape& shape2){
     shape.length = shape1.length + shape2.length -1;
     shape.vacancy1 = shape1.vacancy1;
     shape.vacancy2 = shape2.vacancy2;
-    
+
     if (shape1.breaking == 0)
     {
         if (shape2.breaking == 0)
