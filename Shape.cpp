@@ -135,11 +135,16 @@ ShapeType Shape::getShapeType(const Shape& shape) {
     }else if (((shape.real_length == 4)&&(((shape.vacancy1 == true)||(shape.breaking == 2)||(shape.breaking == 4))||((shape.vacancy2 == true)||(shape.breaking == 3)||(shape.breaking == 4)))) || ((shape.real_length == 3)&&((shape.breaked_length1 == 1)||(shape.breaked_length2 == 1))) || ((shape.real_length == 2)&&((shape.breaked_length1 == 2)||(shape.breaked_length2 == 2))) || ((shape.real_length == 1)&&((shape.breaked_length1 == 3)||(shape.breaked_length2 == 3))))
     {
         return ShapeType::SLEEP_FOUR;
-    }
-    
-    
-    
-    else
+    }else if (((shape.real_length == 4) && ((shape.vacancy1 == true)||(shape.breaking == 2)||(shape.breaking == 4)) && (shape.vacancy2 == true)||(shape.breaking == 3)||(shape.breaking == 4)) || ((shape.real_length == 2)&&(shape.breaked_length1 == 1)&&(shape.vacancy1 == true)&&((shape.breaking == 4)||(shape.vacancy2 == true))) || ((shape.real_length == 2)&&(shape.breaked_length2 == 1)&&(shape.vacancy2 == true)&&((shape.breaking == 4)||(shape.vacancy1 == true))) || ((shape.real_length == 1)&&(shape.breaked_length1 == 2)&&(shape.vacancy1 == true)&&((shape.breaking == 4)||(shape.vacancy2 == true))) || ((shape.real_length == 1)&&(shape.breaked_length2 == 2)&&(shape.vacancy2 == true)&&((shape.breaking == 4)||(shape.vacancy1 == true))))
+    {
+        return ShapeType::LIVE_THREE;
+    }else if ((shape.real_length == 3) || ((shape.real_length + shape.breaked_length1 == 3)&&(shape.vacancy1 == true)) || ((shape.real_length + shape.breaked_length2 == 3)&&(shape.vacancy2 == true)))
+    {
+        return ShapeType::SLEEP_THREE;
+    }else if (shape.real_length == 2)
+    {
+        return ShapeType::LIVE_TWO;
+    }else
     {
         return ShapeType::NONE;
     }

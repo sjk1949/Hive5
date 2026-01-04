@@ -13,6 +13,9 @@ enum class ShapeType{
     LIVE_FOUR, // 活四
     SLEEP_FOUR, // 冲四
     DOUBLE_SLEEP_FOUR, // 同一条线连成两个冲四，对黑棋是禁手，对白棋是普通冲四
+    LIVE_THREE, // 活三
+    SLEEP_THREE, // 其他三连子情况
+    LIVE_TWO, // 两连子
 };
 
 class Shape{
