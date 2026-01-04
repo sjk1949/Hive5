@@ -11,6 +11,7 @@ int main() {
 
     //
     Game game;
+    game.init_game();
     game.game_turn();
     //
 

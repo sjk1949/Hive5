@@ -22,9 +22,17 @@ const int Game::get_player() const{
     return player;
 }
 
+void Game::init_game() {
+    char isAI;
+    std::cout << "玩家1是否是AI？(Y/N)";
+    std::cin >> isAI;
+    isAI1 = (isAI == 'Y' || isAI == 'y') ? true : false;
+    std::cout << "玩家2是否是AI？(Y/N)";
+    std::cin >> isAI;
+    isAI2 = (isAI == 'Y' || isAI == 'y') ? true : false;
+}
+
 void Game::game_turn(){
-    // 显示一张空棋盘
-    ui.display_game(*this);
     while (true) {
         update();
     }

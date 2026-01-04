@@ -14,6 +14,10 @@ public:
     Game();
 
     /**
+     * @brief Initailize game settings.
+     */
+    void init_game();
+    /**
      * @brief Realize game loop.
      */
     void game_turn();
