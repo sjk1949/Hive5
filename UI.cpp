@@ -10,6 +10,7 @@ void UI::clear_page() {
 // 给一个游戏对象，把它画在屏幕上
 void UI::display_game(const Game& game) {
     display_board(game.get_board());
+    std::cout << "上一次输入用时" << game.get_used_time() << "s.\n";
     display_string(game.message);
     if (game.get_player() == 1) {
         display_string("当前玩家: player1 ●");

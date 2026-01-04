@@ -10,8 +10,11 @@
 
 Game::Game() {
     player = 1;
-    isAI1 = true;
+    isAI1 = false;
     isAI2 = false;
+    useTimer = false;
+    is_over = false;
+    used_time = 0;
 }
 
 const Board& Game::get_board() const{
@@ -22,20 +25,31 @@ const int Game::get_player() const{
     return player;
 }
 
+const int Game::get_used_time() const{
+    return used_time;
+}
+
 void Game::init_game() {
-    char isAI;
+    char get_char;
     std::cout << "玩家1是否是AI？(Y/N)";
-    std::cin >> isAI;
-    isAI1 = (isAI == 'Y' || isAI == 'y') ? true : false;
+    std::cin >> get_char;
+    isAI1 = (get_char == 'Y' || get_char == 'y') ? true : false;
     std::cout << "玩家2是否是AI？(Y/N)";
-    std::cin >> isAI;
-    isAI2 = (isAI == 'Y' || isAI == 'y') ? true : false;
+    std::cin >> get_char;
+    isAI2 = (get_char == 'Y' || get_char == 'y') ? true : false;
+    std::cout << "是否启用时间限制？(Y/N)";
+    std::cin >> get_char;
+    useTimer = (get_char == 'Y' || get_char == 'y') ? true : false;
 }
 
 void Game::game_turn(){
-    while (true) {
+    start_time = std::chrono::steady_clock::now();
+    while (!is_over) {
         update();
     }
+    // 如果游戏结束，最后一次绘制屏幕
+    ui.clear_page();
+    ui.display_game(*this);
 }
 
 void Game::update(){
@@ -55,16 +69,27 @@ void Game::update(){
         return;
     }
     clear_message();
+    // 更新落子用时
+    used_time = get_time_elapsed();
+    // 如果开启计时器且时间已到，该玩家直接判负
+    if (useTimer && used_time > TIME_LIMIT) {
+        write_message("时间已到，自动认输！");
+        is_over = true;
+        return;
+    }
     // 改棋盘
     board.add_piece(position[0], position[1], player);
     // 弃用，我们不再单独展示改完后的棋盘，直接随游戏统一刷新，这样更新逻辑里就不需要考虑怎么显示的问题了
     // display_board();
     // 检查输赢，如果赢了跳出循环
     if (check_win()) {
+        is_over = true;
         return;
     } else {
         // 切换玩家
         switch_player();
+        // 重置计时器
+        start_time = std::chrono::steady_clock::now();
     }
 
     /* 测试Shape.cpp
@@ -97,6 +122,11 @@ bool Game::check_win(){
     return false;
 }
 
+int Game::get_time_elapsed() {
+    auto now = std::chrono::steady_clock::now();
+    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(now - start_time).count();
+    return static_cast<int>(elapsed);
+}
 void Game::switch_player(){
     if (player == 1)
     {
